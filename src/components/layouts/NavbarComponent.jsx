@@ -23,30 +23,32 @@ export function NavbarComponents() {
     }
   ];
   return (
-    <Navbar fluid rounded>
-      <NavbarBrand href="https://flowbite-react.com">
-        <img
-          src="/favicon.svg"
-          className="mr-3 h-6 sm:h-9"
-          alt="Flowbite React Logo"
-        />
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-          Flowbite React
-        </span>
-      </NavbarBrand>
-      <NavbarToggle />
-      <NavbarCollapse>
-        {menu.map((menu) => (
-          <NavLink
-            className={({ isActive }) =>
-              isActive ? "text-blue-600" : "text-black"
-            }
-            to={menu.path}
-          >
-            {menu.title}
-          </NavLink>
-        ))}
-      </NavbarCollapse>
-    </Navbar>
+    <header className="bg-blue-900">
+      <Navbar
+        fluid
+        rounded
+        className="bg-blue-900 max-w-screen-2xl mx-auto py-4 mb-[50px]"
+      >
+        <NavLink to="/">
+          <span className="self-center whitespace-nowrap text-xl font-semibold text-white">
+            iShop
+          </span>
+        </NavLink>
+        <NavbarToggle />
+        <NavbarCollapse>
+          {menu.map((menu, index) => (
+            <NavLink
+              key={index}
+              className={({ isActive }) =>
+                isActive ? "text-yellow-400" : "text-white"
+              }
+              to={menu.path}
+            >
+              {menu.title}
+            </NavLink>
+          ))}
+        </NavbarCollapse>
+      </Navbar>
+    </header>
   );
 }

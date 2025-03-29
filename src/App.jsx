@@ -1,43 +1,63 @@
 import { useEffect, useState } from "react";
-import Button from "./components/button/Button";
+import getData from "./services/get/getData";
+import { CategoryCard } from "./components/cards/CategoryCard";
 import ProductCard from "./components/cards/ProductCard";
-import { NavbarComponents } from "./components/layouts/NavbarComponent";
 
 function App() {
+  const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
-  const [count, setCount] = useState(0);
-  // get product function
-  async function getAllProduct() {
-    const products = await fetch("https://dummyjson.com/products").then(
-      (response) => response.json()
-    );
-
-    // set state
-    setProducts(products.products);
-  }
 
   useEffect(() => {
-    getAllProduct();
+    async function getProduct() {
+      const data = await getData("categories");
+      const productsData = await getData("products");
+
+      console.log("data :>> ", data.content);
+      // update state categories
+      setCategories(data.content);
+      setProducts(productsData.content);
+    }
+    getProduct();
   }, []);
 
-  console.log("products :>> ", products);
-  console.log("Before call");
-
+  console.log("categories :>> ", categories);
   return (
     <>
-      <h1 className="text-5xl text-blue-700 font-bold">{count}</h1>
-
-      <button onClick={() => setCount(count + 1)}>count</button>
-      {/* card section */}
-      <section className="grid grid-cols-4 gap-5">
-        {products.map((product) => (
-          <ProductCard
-            thumbnail={product.thumbnail}
-            title={product.title}
-            price={product.price}
-            rating={product.rating}
-          />
-        ))}
+      {/* categories section */}
+      <section>
+        <h1 className="text-4xl font-bold text-blue-900 text-center">
+          Popular Categories
+        </h1>
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5">
+          {categories.slice(0, 5).map((category, index) => (
+            <CategoryCard
+              key={index}
+              media={category.media}
+              name={category.name}
+              uuid={category.uuid}
+            />
+          ))}
+        </div>
+      </section>
+      {/* product section */}
+      <section>
+        <h1 className="text-4xl font-bold text-blue-900 text-center">
+          Discount Products
+        </h1>
+        <div className="grid grid-cols-4 gap-5">
+          {products
+            .filter((product) => product.discount > 0)
+            .map((product, index) => (
+              <ProductCard
+                key={index}
+                thumbnail={product.thumbnail}
+                name={product.name}
+                priceOut={product.priceOut}
+                discount={product.discount}
+                uuid={product.uuid}
+              />
+            ))}
+        </div>
       </section>
     </>
   );
