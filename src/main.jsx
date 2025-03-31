@@ -7,6 +7,7 @@ import ProductPage from "./pages/products/index.jsx";
 import RootLayout from "./components/layouts/RootLayout.jsx";
 import ProductDetails from "./pages/products/ProductDetails.jsx";
 import ProductCategoriesPage from "./pages/products/categories/index.jsx";
+import Login from "./pages/auth/login/index.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -21,6 +22,8 @@ createRoot(document.getElementById("root")).render(
             element={<ProductCategoriesPage />}
           />
         </Route>
+        {/* login */}
+        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
